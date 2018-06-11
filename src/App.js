@@ -1,5 +1,6 @@
 import React, { Component } from "react"; // 노드 모듈스 안에 라이브러리 모듈을 쓸 떄는 경로를 안쓴다.
-import TodoItem from './components/TodoItem' // src 폴더 안에 ./ 경로를 써줘야 함.
+// import TodoItem from './components/TodoItem' // src 폴더 안에 ./ 경로를 써줘야 함. 
+import TodoList from './components/TodoList'
 let count = 0;
 
 class App extends Component {
@@ -72,17 +73,12 @@ class App extends Component {
           />
           <button onClick={this.handleButtonClick}>추가</button>
         </label>
-        <ul>
-          {todos.map(todo => (
-            <TodoItem 
-             key={todo.id} 
-             {...todo}
-             onComplete={this.handleTodoItemComplete} 
-             onDelete={this.handleTodoItemDelete} 
-            />
-          ))
-          }
-        </ul>
+        <TodoList 
+        todos={todos} 
+        handleTodoItemComplete={this.handleTodoItemComplete} 
+        handleTodoItemDelete={this.handleTodoItemDelete}
+        />
+
       </div>
     );
   }
