@@ -65,7 +65,15 @@ class App extends Component {
        })
     }
   };
-  handleCompleteClick = e => {};
+ handleTodoItemBodyUpdate = async (id, body) => {
+   this.setState({
+     loading: true
+   });
+   await todoAPI.patch(`/todos/${id}`, {
+     body
+   })
+   await this.fetchTodos();
+ }
 
  handleTodoItemComplete = async id => {
     this.setState({
@@ -105,6 +113,7 @@ class App extends Component {
           todos={todos}
           handleTodoItemComplete={this.handleTodoItemComplete} 
           handleTodoItemDelete={this.handleTodoItemDelete}
+          handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
           />
           )}
 
