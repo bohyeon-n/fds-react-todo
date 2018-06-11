@@ -1,24 +1,44 @@
 import React, { Component } from "react"; // 노드 모듈스 안에 라이브러리 모듈을 쓸 떄는 경로를 안쓴다.
 // import TodoItem from './components/TodoItem' // src 폴더 안에 ./ 경로를 써줘야 함. 
 import TodoList from './components/TodoList'
+import axios from 'axios';
 let count = 0;
+
+const todoAPI = axios.create({
+  baseURL: 'https://zealous-mallet.glitch.me'
+})
 
 class App extends Component {
   state = {
+    loading: false,
     todos: [
-      {
-        id: count++,
-        body: "React 공부",
-        complete: true
-      },
-      {
-        id: count++,
-        body: "Redux 공부",
-        complete: false
-      }
+      // {
+      //   id: count++,
+      //   body: "React 공부",
+      //   complete: true
+      // },
+      // {
+      //   id: count++,
+      //   body: "Redux 공부",
+      //   complete: false
+      // }
     ],
     newTodoBody: ""
   };
+  
+  async componentDidMount() {
+    this.setState({
+      loading: true
+    })
+    const res = await todoAPI.get('/todos')
+    this.setState({
+      todos: res.data,
+      loading: false
+    })
+  }
+ 
+
+
   handleInputChange = e => {
     this.setState({
       newTodoBody: e.target.value
@@ -60,7 +80,7 @@ class App extends Component {
     })
   }
   render() {
-    const { todos, newTodoBody } = this.state;
+    const { todos, newTodoBody, loading } = this.state;
     return (
       <div>
         <h1>할 일 목록</h1>
@@ -73,11 +93,15 @@ class App extends Component {
           />
           <button onClick={this.handleButtonClick}>추가</button>
         </label>
-        <TodoList 
-        todos={todos} 
-        handleTodoItemComplete={this.handleTodoItemComplete} 
-        handleTodoItemDelete={this.handleTodoItemDelete}
-        />
+        {loading ? (
+          <div>loading...</div>
+        ) : (
+          <TodoList 
+          todos={todos}
+          handleTodoItemComplete={this.handleTodoItemComplete} 
+          handleTodoItemDelete={this.handleTodoItemDelete}
+          />
+          )}
 
       </div>
     );
