@@ -27,6 +27,11 @@ class App extends Component {
   };
   
   async componentDidMount() {
+    await this.fetchTodos();
+  }
+
+  
+  fetchTodos = async () => {
     this.setState({
       loading: true
     })
@@ -35,9 +40,8 @@ class App extends Component {
       todos: res.data,
       loading: false
     })
+    
   }
- 
-
 
   handleInputChange = e => {
     this.setState({
@@ -45,39 +49,40 @@ class App extends Component {
     });
   };
 
-  handleButtonClick = e => {
-    const newTodo = {
-      body: this.state.newTodoBody,
-      complete: false,
-      id: count++
-    };
+  handleButtonClick = async e => {
     if (this.state.newTodoBody) {
+      const newTodo = {
+        body: this.state.newTodoBody,
+        complete: false
+      }
       this.setState({
-        todos: [...this.state.todos, newTodo],
-        newTodoBody: ""
-      });
+        loading: true
+      })
+      await todoAPI.post('/todos', newTodo)
+      await this.fetchTodos()
+       this.setState({
+         newTodoBody:''
+       })
     }
   };
   handleCompleteClick = e => {};
 
-  handleTodoItemComplete = id => {
+ handleTodoItemComplete = async id => {
     this.setState({
-      todos: this.state.todos.map(t => {
-        const newTodo = {
-          ...t
-        };
-        if (t.id === id) {
-          newTodo.complete = true;
-        }
-        return newTodo;
-      })
-    });
+      loading: true
+    })
+    await todoAPI.patch(`/todos/${id}`, {
+      complete: true
+    })
+    await this.fetchTodos();
   };
 
-  handleTodoItemDelete = id => {
+  handleTodoItemDelete = async id => {
     this.setState({
-      todos: this.state.todos.filter(t => t.id !== id)
+      loading: true
     })
+    await todoAPI.delete(`todos/${id}`)
+    await this.fetchTodos();
   }
   render() {
     const { todos, newTodoBody, loading } = this.state;
