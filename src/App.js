@@ -5,7 +5,7 @@ import axios from 'axios';
 let count = 0;
 
 const todoAPI = axios.create({
-  baseURL: 'https://zealous-mallet.glitch.me'
+  baseURL: process.env.REACT_APP_API_URL
 })
 
 class App extends Component {
