@@ -1,8 +1,9 @@
 import React, { Component } from "react"; // 노드 모듈스 안에 라이브러리 모듈을 쓸 떄는 경로를 안쓴다.
+import axios from 'axios'; // 구분을 하는 것이 관례이다. 
+
 // import TodoItem from './components/TodoItem' // src 폴더 안에 ./ 경로를 써줘야 함. 
 import TodoList from './components/TodoList'
-import axios from 'axios';
-let count = 0;
+import TodoForm from './components/TodoForm'
 
 const todoAPI = axios.create({
   baseURL: process.env.REACT_APP_API_URL
@@ -22,8 +23,7 @@ class App extends Component {
       //   body: "Redux 공부",
       //   complete: false
       // }
-    ],
-    newTodoBody: ""
+    ]
   };
   
   async componentDidMount() {
@@ -43,16 +43,11 @@ class App extends Component {
     
   }
 
-  handleInputChange = e => {
-    this.setState({
-      newTodoBody: e.target.value
-    });
-  };
 
-  handleButtonClick = async e => {
-    if (this.state.newTodoBody) {
+  createTodo = async newTodoBody => {
+    if (newTodoBody) {
       const newTodo = {
-        body: this.state.newTodoBody,
+        body: newTodoBody,
         complete: false
       }
       this.setState({
@@ -60,12 +55,9 @@ class App extends Component {
       })
       await todoAPI.post('/todos', newTodo)
       await this.fetchTodos()
-       this.setState({
-         newTodoBody:''
-       })
     }
   };
- handleTodoItemBodyUpdate = async (id, body) => {
+ updateTodoBody = async (id, body) => {
    this.setState({
      loading: true
    });
@@ -75,7 +67,7 @@ class App extends Component {
    await this.fetchTodos();
  }
 
- handleTodoItemComplete = async id => {
+ completeTodo = async id => {
     this.setState({
       loading: true
     })
@@ -85,7 +77,7 @@ class App extends Component {
     await this.fetchTodos();
   };
 
-  handleTodoItemDelete = async id => {
+  deleteTodo = async id => {
     this.setState({
       loading: true
     })
@@ -93,34 +85,27 @@ class App extends Component {
     await this.fetchTodos();
   }
   render() {
-    const { todos, newTodoBody, loading } = this.state;
+    const { todos, loading } = this.state;
     return (
       <div>
         <h1>할 일 목록</h1>
-        <label>
-          새 할 일
-          <input
-            type="text"
-            value={newTodoBody}
-            onChange={this.handleInputChange}
-          />
-          <button onClick={this.handleButtonClick}>추가</button>
-        </label>
+        <TodoForm onCreate={this.createTodo}/>
         {loading ? (
           <div>loading...</div>
         ) : (
           <TodoList 
           todos={todos}
-          handleTodoItemComplete={this.handleTodoItemComplete} 
-          handleTodoItemDelete={this.handleTodoItemDelete}
-          handleTodoItemBodyUpdate={this.handleTodoItemBodyUpdate}
+          onTodoComplete={this.completeTodo} 
+          onTodoDelete={this.deleteTodo}
+          onTodoBodyUpdate={this.updateTodoBody}
           />
           )}
-
       </div>
     );
   }
 }
+
+
 
 
 
