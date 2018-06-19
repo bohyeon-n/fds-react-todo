@@ -4,28 +4,34 @@ import React, { Component } from "react"; // 노드 모듈스 안에 라이브�
 import TodoList from "../components/TodoList";
 import TodoForm from "../components/TodoForm";
 import { TodoConsumer } from "../contexts/TodoContext";
+import { Redirect } from "react-router-dom";
 
 export default class TodoContainer extends Component {
   render() {
-    return (
-      <TodoConsumer>
-        {({todos, onCreate, onTodoComplete , onTodoDelete, onTodoBodyUpdate, loading}) => (
-          <div>
-            <h1>할 일 목록</h1>
-            <TodoForm onCreate={onCreate} />
-            {loading ? (
-              <div>loading...</div>
-            ) : (
-              <TodoList
-                todos={todos}
-                onTodoComplete={onTodoComplete}
-                onTodoDelete={onTodoDelete}
-                onTodoBodyUpdate={onTodoBodyUpdate}
-              />
-            )}
-          </div>
-        )}
-      </TodoConsumer>
-    );
+    if(!localStorage.getItem('token')) {
+      return <Redirect to='/login'/>
+    } else {
+      return (
+        <TodoConsumer>
+          {({todos, onCreate, onTodoComplete , onTodoDelete, onTodoBodyUpdate, loading}) => (
+            <div>
+              <h1>할 일 목록</h1>
+              <TodoForm onCreate={onCreate} />
+              {loading ? (
+                <div>loading...</div>
+              ) : (
+                <TodoList
+                  todos={todos}
+                  onTodoComplete={onTodoComplete}
+                  onTodoDelete={onTodoDelete}
+                  onTodoBodyUpdate={onTodoBodyUpdate}
+                />
+              )}
+            </div>
+          )}
+        </TodoConsumer>
+      );
+
+    }
   }
 }
