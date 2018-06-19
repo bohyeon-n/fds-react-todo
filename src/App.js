@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 
 import { PageProvider, PageConsumer } from "./contexts/PageContext";
 import { UserProvider } from "./contexts/UserContext";
+import { TodoProvider } from "./contexts/TodoContext";
 export default class App extends React.Component {
   render() {
     return (
