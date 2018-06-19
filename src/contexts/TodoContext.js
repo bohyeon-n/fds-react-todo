@@ -23,6 +23,7 @@ class TodoProvider extends Component {
     ]
   };
   //컴포넌트가 dom세계에 장착이 됐을 때 실행 됨. 
+  // todoProvider는 마운트되었을 때 부작용이 있는 컴포넌트이다. 
   async componentDidMount() {
     await this.fetchTodos();
   }

@@ -7,9 +7,9 @@ class PageProvider extends React.Component {
   state = {
     page: 'login'
   }
-  goToTodoPage = (page='main') => {
+  goToTodoPage = () => {
     this.setState({
-      page: page
+      page: 'todo'
     })
   }
   goToLoginPage = () => {
