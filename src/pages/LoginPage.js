@@ -1,12 +1,9 @@
-import React from 'react'
-
+import React from "react";
+import LoginFormContainer from '../containers/LoginFormContainer'
 export default class LoginPage extends React.Component {
   render() {
-    const {onLogin} = this.props
     return (
-      <div>
-        <button onClick={onLogin}>로그인</button>
-      </div>
-    )
+      <LoginFormContainer/>
+    );
   }
 }

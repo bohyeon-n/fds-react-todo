@@ -6,6 +6,8 @@ export default class TodoItem extends Component {
     onBodyUpdate(id, newBody)
   }
   render() {
+    // 변수에 저장된 것을 넘겨주면, 메모리에 저장된 데이터를 쓸 수 있다. 
+    // 가입된 회원이라면, 서버에 있는 데이터를 넘겨주면 실제 유저의 할 일 목록을 넣어줄 수 있다. 
     const {
         id,
        body, 
