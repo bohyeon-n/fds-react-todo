@@ -21,5 +21,5 @@ const Home = () =>
   localStorage.getItem("token") ? (
     <Redirect to="/todo" />
   ) : (
-    <Redirect to="login" />
+    <Redirect to="/login" />
   );
