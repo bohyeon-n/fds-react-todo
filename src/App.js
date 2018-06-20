@@ -9,7 +9,7 @@ export default class App extends React.Component {
       <BrowserRouter>
         <UserProvider>
           <Route path="/login" component={LoginPage} />
-          <Route path="/todo" component={TodoPage} />
+          <Route path="/todo" render={() => <TodoPage title='My title'/>} />
           <Route exact path="/" component={Home} />
         </UserProvider>
       </BrowserRouter>

@@ -4,17 +4,20 @@ import React, { Component } from "react"; // 노드 모듈스 안에 라이브�
 import LogoutButtonContainer from "../containers/LogoutButtonContainer";
 import TodoContainer from "../containers/TodoContainer";
 import { TodoProvider } from "../contexts/TodoContext";
-
-export default class TodoPage extends Component {
+import withAuth from '../hocs/withAuth'
+class TodoPage extends Component {
   render() {
     return (
       <React.Fragment>
         <TodoProvider>
           {/* todopagr안에 todoprovider가 있기때문에 로그아웃하면 메모리가 다 날아간다. */}
-          <TodoContainer />
+          <h1>{this.props.title}</h1>
+          <TodoContainer  />
           <LogoutButtonContainer />
         </TodoProvider>
       </React.Fragment>
     );
   }
 }
+
+export default withAuth(TodoPage)
