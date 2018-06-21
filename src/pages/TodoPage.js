@@ -6,6 +6,9 @@ import TodoContainer from "../containers/TodoContainer";
 import { TodoProvider } from "../contexts/TodoContext";
 import withAuth from '../hocs/withAuth'
 class TodoPage extends Component {
+  static defaultProps = {
+    title: 'My Title'
+  }
   render() {
     return (
       <React.Fragment>
@@ -20,4 +23,5 @@ class TodoPage extends Component {
   }
 }
 
-export default withAuth(TodoPage)
+export default withAuth('/login')(TodoPage)
+
